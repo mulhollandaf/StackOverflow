@@ -1,5 +1,6 @@
 package com.example.stackoverflow.ui.main
 
+import android.net.Uri
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.SourceOfTruth
@@ -59,17 +60,19 @@ class QuestionRepository
     }
 
     private suspend fun writeQuestionsForStore(questionsDto: List<QuestionDto>) {
-        questionLocal.deleteAllQuestions()
-        val question = questionsDto.mapNotNull {
-            Timber.d("Writing Question ${it.title}")
-            if (it.is_answered && it.answer_count > 1) {
-                Question(title = it.title, link = it.link)
+        if (!questionsDto.isNullOrEmpty()) {
+            questionLocal.deleteAllQuestions()
+            val question = questionsDto.mapNotNull {
+                Timber.d("Writing Question ${it.title}")
+                if (it.is_answered && it.answer_count > 1) {
+                    val decoded = Uri.decode(it.title)
+                    Question(title = decoded, link = it.link)
+                } else {
+                    null
+                }
             }
-            else {
-                null
-            }
+            questionLocal.insertQuestions(question)
         }
-        questionLocal.insertQuestions(question)
     }
 
     private fun provideStackExchange(): Api {

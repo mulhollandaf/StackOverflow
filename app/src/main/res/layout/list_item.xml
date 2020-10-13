@@ -5,6 +5,9 @@
         <variable
             name="question"
             type="com.example.stackoverflow.ui.main.QuestionInfo"/>
+        <variable
+            name="viewModel"
+            type="com.example.stackoverflow.ui.main.MainViewModel"/>
     </data>
     <LinearLayout
 
@@ -23,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@{question.title}"
             tools:text="Item Name"
+            android:onClick="@{()->viewModel.openUrl(question.link)}"
             />
     </LinearLayout>
 </layout>

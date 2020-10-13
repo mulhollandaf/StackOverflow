@@ -1,5 +1,7 @@
 package com.example.stackoverflow.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,7 +28,7 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val questionAdapter = QuestionAdapter()
+    private lateinit var questionAdapter: QuestionAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -36,13 +38,30 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        questionAdapter = QuestionAdapter(viewModel)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this@MainFragment
         setupRecyclerView()
+        setupViewModelObservers()
+    }
+
+    private fun setupViewModelObservers() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.questionFlow.collect {
                 questionAdapter.questionInfos = it
                 questionAdapter.notifyDataSetChanged()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            for (event in viewModel.eventChannel) {
+                when (event) {
+                    is MainViewModel.Event.OpenUrl -> {
+                        val openURL = Intent(Intent.ACTION_VIEW)
+                        openURL.data = Uri.parse(event.url)
+                        startActivity(openURL)
+                    }
+                }
             }
         }
     }

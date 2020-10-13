@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.stackoverflow.R
 import com.example.stackoverflow.databinding.ListItemBinding
 
-class QuestionAdapter : RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder>() {
+class QuestionAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder>() {
     var questionInfos: List<QuestionInfo> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {
@@ -20,6 +20,7 @@ class QuestionAdapter : RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder>
         questionInfos[position].also { questionInfo ->
             holder.binding.apply {
                 question = questionInfo
+                viewModel = mainViewModel
             }
         }
     }
