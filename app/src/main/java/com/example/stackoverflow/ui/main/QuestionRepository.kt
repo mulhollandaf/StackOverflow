@@ -59,6 +59,7 @@ class QuestionRepository
     }
 
     private suspend fun writeQuestionsForStore(questionsDto: List<QuestionDto>) {
+        questionLocal.deleteAllQuestions()
         val question = questionsDto.mapNotNull {
             Timber.d("Writing Question ${it.title}")
             if (it.is_answered && it.answer_count > 1) {

@@ -12,7 +12,7 @@ class MainViewModel
 @ViewModelInject constructor(
     questionRepository: QuestionRepository
 ): ViewModel() {
-    var questionFlow = questionRepository.getQuestions(false)
+    var questionFlow = questionRepository.getQuestions(true)
         .mapLatest {
             it.dataOrNull()
         }
