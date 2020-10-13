@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="question"
+            type="com.example.stackoverflow.ui.main.QuestionInfo"/>
+    </data>
+    <LinearLayout
+
+        android:id="@+id/listItemLayout"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/listItemTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{question.title}"
+            tools:text="Item Name"
+            />
+    </LinearLayout>
+</layout>
