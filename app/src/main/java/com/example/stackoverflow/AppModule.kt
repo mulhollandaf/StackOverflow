@@ -2,10 +2,9 @@ package com.example.stackoverflow
 
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
+@Module
+@InstallIn(SingletonComponent::class)
 class AppModule {
-    @Module
-    @InstallIn(ApplicationComponent::class)
-    class AppModule
 }
